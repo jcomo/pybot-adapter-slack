@@ -21,7 +21,7 @@ class SlackAdapter(Adapter):
 
     def reply(self, message, text):
         if not self._is_direct_message(message.room):
-            text = '<@{}>: {}'.format(message.user.id, text)
+            text = u'<@{}>: {}'.format(message.user.id, text)
 
         self._send_message(message.room, text)
 
@@ -65,7 +65,10 @@ class SlackAdapter(Adapter):
 
             message = None
             if type == 'message':
-                message = self._adapt_message(user, event)
+                # TODO: implement other interesting subtypes
+                subtype = event.get('subtype') or 'message'
+                if subtype == 'message':
+                    message = self._adapt_message(user, event)
 
             if message:
                 self.receive(message)
@@ -77,7 +80,7 @@ class SlackAdapter(Adapter):
 
         if self._is_direct_message(channel_id):
             # Pretend they mentioned the robot's name
-            text = '{} {}'.format(self.robot.name, text)
+            text = u'{} {}'.format(self.robot.name, text)
 
         # TODO: chat threads
         return Message(user, channel_id, text, ts)
