@@ -2,7 +2,7 @@ from setuptools import setup, find_packages
 
 setup(
     name = 'pybot-adapter-slack',
-    version = '0.0.1',
+    version = '0.0.2',
     description = "Slack adapter for pybot",
     url = 'https://github.com/jcomo/pybot-adapter-slack',
     author = 'Jonathan Como',
